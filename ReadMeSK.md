@@ -8,7 +8,7 @@ https://www.youtube.com/watch?v=WTofttoD2xg
 Above video was linux based, below steps are windows based
 
 Creating CI/CD Pipeline using GitHub Actions for Python Project (Heroku Deployment Example)
-github.com (hbn8911@gmail.com/p@ssp@ss1)
+github.com (hbn8911@gmail.com)
 >> new repository
 >> python-cicd-heroku-example
 https://github.com/hbnSupport/python-cicd-heroku-example.git
@@ -29,25 +29,25 @@ cd pyvenv
 
 .\Scripts\activate
 
-(myenv) D:\WS\cicd\python-cicd-heroku-example>
+(pyvenv) D:\WS\cicd\python-cicd-heroku-example>
 
-(myenv)> pip install flask pytest
+(pyvenv)> pip install flask pytest
 
 --- flask is for micro web framework 
 --- pytest is for python unit test
 
-(myenv)> python.exe -m pip install --upgrade pip      ///incase pip need to be upgraded
+(pyvenv)> python.exe -m pip install --upgrade pip      ///incase pip need to be upgraded
 
 typical requirements.txt file creation but we do not do it this way (steps below are just highlight the approach)
 ///----------------for reading/understanding purpose only Begin ------------------
-(myenv)> pip freeze > requirements.txt
+(pyvenv)> pip freeze > requirements.txt
 
-(myenv)> dir
-myenv
+(pyvenv)> dir
+pyvenv
 requirements.txt
 
 
-(myenv)> type requirements.txt   // or cat requirements.txt
+(pyvenv)> type requirements.txt   // or cat requirements.txt
 
 	atomicwrites==1.4.0
 	attrs==20.3.0
@@ -68,44 +68,44 @@ requirements.txt
 ///----------------for reading/understanding purpose only End ------------------
 
 add the following two lines into requirments.txt
-(myenv)> vim requirements.txt
+(pyvenv)> vim requirements.txt
 	flask
 	pytest
 
-(myenv)> mkdir src
-(myenv)> cd src
-(myenv)>  touch app.py
+(pyvenv)> mkdir src
+(pyvenv)> cd src
+(pyvenv)>  touch app.py
 
-(myenv)>  vim app.py
+(pyvenv)>  vim app.py
 <  code here >
 
-(myenv)> cd ..
-(myenv)>  mkdir tests
-(myenv)>  cd tests
-(myenv)>  touch test_app.py
-(myenv)>  vim test_app.py
+(pyvenv)> cd ..
+(pyvenv)>  mkdir tests
+(pyvenv)>  cd tests
+(pyvenv)>  touch test_app.py
+(pyvenv)>  vim test_app.py
 < index test code here >
 
 cd ..
-(myenv)> pytest
+(pyvenv)> pytest
 Error :  ModuleNotFoundError: No module named 'app'
 
-(myenv)> set PYTHONPATH=src  //on linux export PYTHONPATH=src
-(myenv)> echo %PYTHONPATH%  // on echo $PYTHONPATH
+(pyvenv)> set PYTHONPATH=src  //on linux export PYTHONPATH=src
+(pyvenv)> echo %PYTHONPATH%  // on echo $PYTHONPATH
 src
 
-(myenv)>  pytest  or pytest -v // for verbose
+(pyvenv)>  pytest  or pytest -v // for verbose
 
-(myenv)> vim .gitignore
+(pyvenv)> vim .gitignore
 pyvenv/
-__pycache__
-requirements.txt.bak
+__pycache__/
 
-(myenv)>  git status
-(myenv)>  git add .
-(myenv)>  git status
-(myenv)>  git commit -m "Initial Commit"
-(myenv)>  git push
+
+(pyvenv)>  git status
+(pyvenv)>  git add .
+(pyvenv)>  git status
+(pyvenv)>  git commit -m "Initial Commit"
+(pyvenv)>  git push
 
 remote: Permission to hbnSupport/python-cicd-heroku-example.git denied to kveni1976
 
@@ -127,10 +127,10 @@ Select "Python application" => click on "Set up this workflow"
 Creates a file called "pythonapp.yml"
 
 
-(myenv)>  git pull --rebase
-(myenv)>  git status
-(myenv)>  cd .github/workflows
-(myenv)>  vim pythonapp.yml
+(pyvenv)>  git pull --rebase
+(pyvenv)>  git status
+(pyvenv)>  cd .github/workflows
+(pyvenv)>  vim pythonapp.yml
 
 		...
 		run: |
@@ -138,13 +138,13 @@ Creates a file called "pythonapp.yml"
 		export PYTHONPATH=src  <== added this export of PYTHONPATH
 		pytest
 		
-(myenv)>  git status
+(pyvenv)>  git status
 	show modified: .github/workflows/pythonapp.yml
-(myenv)>  git add .  //// there is only one thing to add
-(myenv)>  git commit -m "Update workflow for export src"
-(myenv)>  git push
-(myenv)>  git pull --rebase
-(myenv)>  glo  /// git logs
+(pyvenv)>  git add .  //// there is only one thing to add
+(pyvenv)>  git commit -m "Update workflow for export src"
+(pyvenv)>  git push
+(pyvenv)>  git pull --rebase
+(pyvenv)>  glo  /// git logs
 
 
  
@@ -159,23 +159,23 @@ download & Install heroku
 https://devcenter.heroku.com/articles/heroku-cli#download-and-install
 
 check if heroku is installed
-(myenv)> heroku
+(pyvenv)> heroku
 
-(myenv)> heroku login
+(pyvenv)> heroku login
 
-(myenv)> heroku create 
+(pyvenv)> heroku create 
 creating app.... done,
 https://salty-harbor-37125.herokuapp.com/ | https://git.heroku.com/salty-herbor-37125.git
 
 (visit the above link)
 
-(myenv)> git push heroku master   <-- this will push the git code manually 
+(pyvenv)> git push heroku master   <-- this will push the git code manually 
 
 to automate the deploy process i.e. whenever you sucessfully push the code on github it will push automatically to heroku... for which you need to provide heroku user login / password (authernitcation) specified in github.
 for which you need a auth token... to get heroku token type in
 
 
-(myenv)> heroku authorizations:create
+(pyvenv)> heroku authorizations:create
 Creating OAuth Authorization.... done
 ...
 Description: Long-lived user authorization.
@@ -195,7 +195,7 @@ Value: salty-harbor-37125
 
 
 
-(myenv)> vim pythonapp.yml
+(pyvenv)> vim pythonapp.yml
 ...
 ...
 	steps:
@@ -221,24 +221,24 @@ Value: salty-harbor-37125
 
 
 /// Another file is required to deploy python or any other application to heroku
-(myenv)> vim Procfile.yml  /// P is capital
+(pyvenv)> vim Procfile.yml  /// P is capital
 web gunicorn --pythonpath src app:app
 
-(myenv)> vim runtime.txt
+(pyvenv)> vim runtime.txt
 python-3.7.6
 
-(myenv)>  vim requirements.txt
+(pyvenv)>  vim requirements.txt
 flask
 pytest
 gunicorn   <== add this line
 
-(myenv)> git status
+(pyvenv)> git status
 
 
-(myenv)> git add .
-(myenv)> git commit -m "Prepare for heroku deployment"
+(pyvenv)> git add .
+(pyvenv)> git commit -m "Prepare for heroku deployment"
 
-(myenv)> git push
+(pyvenv)> git push
 
 
 goto github repository ... check if workflow is working fine or not
