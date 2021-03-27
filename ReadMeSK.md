@@ -107,6 +107,20 @@ requirements.txt.bak
 (myenv)>  git commit -m "Initial Commit"
 (myenv)>  git push
 
+remote: Permission to hbnSupport/python-cicd-heroku-example.git denied to kveni1976
+
+git config --global --unset credential.helper <<- did not work
+
+git config --global push.default simple << -- this also did not work
+
+
+Control Panel ---> User Accounts ---> Manager your credentials ---> Windows Credentials
+Then search for an entry like, git:https://github.com and remove it. I
+This worked ... 
+git push asked for github username and password ... 
+
+
+
 Go to github
 Go to "Action" tab
 Select "Python application" => click on "Set up this workflow"
@@ -117,11 +131,20 @@ Creates a file called "pythonapp.yml"
 (myenv)>  git status
 (myenv)>  cd .github/workflows
 (myenv)>  vim pythonapp.yml
-(myenv)>  git add requirements.txt
-(myenv)>  git commit -m "Update to requirements"
+
+		...
+		run: |
+		pip install pytest
+		export PYTHONPATH=src  <== added this export of PYTHONPATH
+		pytest
+		
+(myenv)>  git status
+	show modified: .github/workflows/pythonapp.yml
+(myenv)>  git add .  //// there is only one thing to add
+(myenv)>  git commit -m "Update workflow for export src"
+(myenv)>  git push
 (myenv)>  git pull --rebase
 (myenv)>  glo  /// git logs
-(myenv)>  git push
 
 
  
